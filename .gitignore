@@ -4,3 +4,4 @@ models/weights/*
 test_imgs/*
 */__pycache__
 */*/__pycache__
+/demo/

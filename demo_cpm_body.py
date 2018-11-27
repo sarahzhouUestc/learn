@@ -9,12 +9,14 @@ import os
 import imageio
 import tensorflow as tf
 from models.nets import cpm_body
+import warnings
+warnings.filterwarnings("ignore")
 
 # os.environ['CUDA_VISIBLE_DEVICES'] = '0,1,2,3'
 
 """Parameters
 """
-base_path="/home/administrator/diskc/pengxiao/convolutional-pose-machines-tensorflow"
+base_path = "demo"
 FLAGS = tf.app.flags.FLAGS
 tf.app.flags.DEFINE_string('DEMO_TYPE',
                            default_value='HM',
@@ -68,8 +70,8 @@ def mgray(test_img_resize, test_img):
                     (FLAGS.input_size, FLAGS.input_size, 1))
     # cv2.imshow('color', test_img.astype(np.uint8))
     # cv2.imshow('gray', test_img_resize.astype(np.uint8))
-    cv2.imwrite(os.path.join(base_path, 'demo',  "color_.jpg"), test_img.astype(np.uint8))
-    cv2.imwrite(os.path.join(base_path, 'demo',  "gray_.jpg"), test_img_resize.astype(np.uint8))
+    cv2.imwrite(os.path.join(base_path, "color_.jpg"), test_img.astype(np.uint8))
+    cv2.imwrite(os.path.join(base_path, "gray_.jpg"), test_img_resize.astype(np.uint8))
     cv2.waitKey(1)
     return test_img_resize
 
@@ -140,7 +142,7 @@ def main(argv):
             # Show visualized image
             demo_img = visualize_result(test_img, FLAGS, stage_heatmap_np, None)
             # cv2.imshow('demo_img', demo_img.astype(np.uint8))
-            cv2.imwrite(os.path.join(base_path, 'demo', str(time.time())+"_.jpg"), demo_img.astype(np.uint8))
+            cv2.imwrite(os.path.join(base_path, str(time.time())+"_.jpg"), demo_img.astype(np.uint8))
             # if cv2.waitKey(1) == ord('q'): break
             print('fps: %.2f' % (1 / (time.time() - fps_t)))
 
@@ -155,7 +157,7 @@ def main(argv):
             # Show visualized image
             demo_img = visualize_result(test_img, FLAGS, stage_heatmap_np, None)
             # cv2.imshow('current heatmap', (demo_img).astype(np.uint8))
-            cv2.imwrite(os.path.join(base_path, 'demo', "current_heatmap.jpg"), (demo_img).astype(np.uint8))
+            cv2.imwrite(os.path.join(base_path, "current_heatmap.jpg"), (demo_img).astype(np.uint8))
             # if cv2.waitKey(1) == ord('q'): break
             print('fps: %.2f' % (1 / (time.time() - fps_t)))
 
@@ -248,17 +250,18 @@ def main(argv):
             # cv2.imshow('hm', output_img)
             print("=======================")
             print(base_path)
-            cv2.imwrite(os.path.join('demo', str(time.time())+"_.jpg"), output_img.astype(np.uint8))
+            print(os.path.join(base_path, str(time.time())+"_.jpg"))
+            cv2.imwrite(os.path.join(base_path, str(time.time())+"_.jpg"), output_img.astype(np.uint8))
             print(output_img)
             # cv2.moveWindow('hm', 2000, 200)
             # cv2.imshow('rgb', test_img)
-            cv2.imwrite(os.path.join('demo', str(time.time())+"_.jpg"), test_img.astype(np.uint8))
+            cv2.imwrite(os.path.join(base_path, str(time.time())+"_.jpg"), test_img.astype(np.uint8))
             # cv2.moveWindow('rgb', 2000, 750)
             # if cv2.waitKey(1) == ord('q'): break
             time.sleep(5)
 
 
-def visualize_result(test_img, FLAGS, stage_heatmap_np, kalman_filter_array):
+def visualize_result(test_img, FLAGS, stage_heatmap_np):
     hm_t = time.time()
     demo_stage_heatmaps = []
     if FLAGS.DEMO_TYPE == 'MULTI':

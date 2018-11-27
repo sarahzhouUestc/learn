@@ -13,7 +13,7 @@ class GUI:
     """给每个组件都命名是为了以后迭代方便"""
     def __init__(self, root):
         # 创建双向链表
-        data = ''
+        data = '队列训练评分系统'
         data.encode("gbk")
         root.title(data)
         # 设置窗口大小
